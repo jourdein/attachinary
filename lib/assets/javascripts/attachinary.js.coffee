@@ -45,6 +45,8 @@
   class $.attachinary.Attachinary
     constructor: (@$input, @config) ->
       @options = @$input.data('attachinary')
+      @options.files_container_selector = @config.filesContainerSelector if @config.filesContainerSelector?
+
       @files = @options.files
 
       @$form = @$input.closest('form')
