@@ -141,6 +141,10 @@
       @files = _files
       @redraw()
       @checkMaximum()
+
+      # do removal from cloudinary server if delete token exist
+      $.cloudinary.delete_by_token(removedFile.delete_token) if removedFile.delete_token?
+      
       @$input.trigger 'attachinary:fileremoved', [removedFile]
 
     checkMaximum: ->
