@@ -113,7 +113,7 @@
 
 
     addFile: (file) ->
-      if !@options.accept || $.inArray(file.format, @options.accept) != -1  || $.inArray(file.resource_type, @options.accept) != -1
+      if !@options.accept || $.inArray(file.format, @options.accept) != -1  || $.inArray(file.resource_type, @options.accept) != -1 || $.inArray("raw", @options.accept) != -1
         @files.push file
         @redraw()
         @checkMaximum()
