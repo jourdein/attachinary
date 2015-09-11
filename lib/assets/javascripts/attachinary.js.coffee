@@ -24,6 +24,11 @@
       """
       render: (files) ->
         $.attachinary.Templating.template(@template, files: files)
+      uploadConfig:
+        previewMaxWidth: 100
+        previewMaxHeight: 100
+        previewCrop: true
+        # autoUpload: false       # default is true
 
 
   $.fn.attachinary = (options) ->
@@ -59,8 +64,10 @@
         dataType: 'json'
         paramName: 'file'
         headers: {"X-Requested-With": "XMLHttpRequest"}
-        dropZone: @config.dropZone || @$input
         sequentialUploads: true
+        dropZone: @config.dropZone || @$input
+
+      $.extend options, @config.uploadConfig
 
       if @$input.attr('accept')
         options.acceptFileTypes = new RegExp("^#{@$input.attr('accept').split(",").join("|")}$", "i")
