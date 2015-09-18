@@ -45,7 +45,13 @@
   class $.attachinary.Attachinary
     constructor: (@$input, @config) ->
       @options = @$input.data('attachinary')
-      @options.files_container_selector = @config.filesContainerSelector if @config.filesContainerSelector?
+      
+      if @config.filesContainerSelector?
+        _filesContainer = @config.filesContainerSelector
+        @config.filesContainerSelector = if _.isFunction(_filesContainer) then _filesContainer else -> $(_filesContainer)
+
+      _dropZone = @config.dropZone
+      @config.dropZone = if _.isFunction(_dropZone) then => _dropZone(@$input) else -> _dropZone
 
       @files = @options.files
 
@@ -67,7 +73,7 @@
         paramName: 'file'
         headers: {"X-Requested-With": "XMLHttpRequest"}
         sequentialUploads: true
-        dropZone: @config.dropZone || @$input
+        dropZone: @config.dropZone() || @$input
 
       $.extend options, @config.uploadConfig
 
@@ -161,11 +167,14 @@
 
 
     addFilesContainer: ->
-      if @options.files_container_selector? and $(@options.files_container_selector).length > 0
-        @$filesContainer = $(@options.files_container_selector)
-      else
+      if @config.filesContainerSelector?
+        @$filesContainer = @config.filesContainerSelector(@$input)
+      
+      unless @config.filesContainerSelector? and @$filesContainer.length > 0
         @$filesContainer = $('<div class="attachinary_container">')
         @$input.after @$filesContainer
+
+
 
     redraw: ->
       @$filesContainer.empty()
