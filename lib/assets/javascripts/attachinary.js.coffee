@@ -177,15 +177,16 @@
 
 
     redraw: ->
+      that = @
       @$filesContainer.empty()
 
       if @files.length > 0
         @$filesContainer.append @makeHiddenField(JSON.stringify(@files))
 
         @$filesContainer.append @config.render(@files)
-        @$filesContainer.find('[data-remove]').on 'click', (event) =>
+        @$filesContainer.find('[data-remove]').on 'click', (event) ->
           event.preventDefault()
-          @removeFile $(event.target).data('remove')
+          that.removeFile $(this).data('remove')
 
         @$filesContainer.show()
       else
