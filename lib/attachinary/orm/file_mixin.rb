@@ -5,8 +5,13 @@ module Attachinary
       if Rails::VERSION::MAJOR == 3
         base.attr_accessible :public_id, :version, :width, :height, :format, :resource_type
       end
-      base.after_destroy :destroy_file
+      base.cattr_accessor :skip_destroy_remote
+      base.after_destroy :destroy_file, unless: skip_destroy_remote?
       base.after_create  :remove_temporary_tag
+    end
+
+    def skip_destroy_remote?
+      !!skip_destroy_remote
     end
 
     def as_json(options)
