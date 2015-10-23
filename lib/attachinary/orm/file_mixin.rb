@@ -6,7 +6,7 @@ module Attachinary
         base.attr_accessible :public_id, :version, :width, :height, :format, :resource_type
       end
       base.cattr_accessor :skip_destroy_remote
-      base.after_destroy :destroy_file, unless: skip_destroy_remote?
+      base.after_destroy :destroy_file, unless: :skip_destroy_remote?
       base.after_create  :remove_temporary_tag
     end
 
