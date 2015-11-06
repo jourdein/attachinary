@@ -96,6 +96,10 @@
       return
 
     bindEventHandlers: ->
+      self = this
+      @$input.on 'click', (event, data) ->
+        if self.isUpdateOperation()
+          self.oldFile = self.files[0]
         self.$input.trigger 'attachinary:fileselection'
 
       @$input.bind 'fileuploadsend', (event, data) =>
