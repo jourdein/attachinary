@@ -178,6 +178,22 @@
       @options.maximum && @files.length >= @options.maximum
 
 
+    isUpdateOperation: ->
+      if @config.method?
+        # this checks on the configuration
+        if @config.method.toLowerCase() is 'update' and @options.maximum is 1
+          # this check on the current datastore
+          
+          # can't continue update op since the 
+          # datasource is empty and hasn't been preserved yet
+          if @oldFile? 
+            return no if @oldFile.length == 0 and @files.length == 0
+          else if @files.length == 0
+            return no
+
+          # old value has been preserveed. (no need to condition)
+          return yes
+      no
 
     addFilesContainer: ->
       if @config.filesContainerSelector?
