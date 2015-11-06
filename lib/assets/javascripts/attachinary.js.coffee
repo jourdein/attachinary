@@ -142,10 +142,21 @@
 
     addFile: (file) ->
       if !@options.accept || $.inArray(file.format, @options.accept) != -1  || $.inArray(file.resource_type, @options.accept) != -1 || $.inArray("raw", @options.accept) != -1
-        @files.push file
-        @redraw()
-        @checkMaximum()
-        @$input.trigger 'attachinary:fileadded', [file]
+        
+        # only for update operate.
+        # replace @files with single length array.
+        # specifically, update only on array of length 1.
+        if @isUpdateOperation()
+          file = $.extend {}, @oldFile, file
+          @files = [file]
+          @redraw()
+          @checkMaximum()
+          @$input.trigger 'attachinary:fileupdated', [file]
+        else
+          @files.push file
+          @redraw()
+          @checkMaximum()
+          @$input.trigger 'attachinary:fileadded', [file]
       else
         alert @config.invalidFormatMessage
 
