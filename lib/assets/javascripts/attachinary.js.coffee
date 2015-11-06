@@ -188,6 +188,8 @@
     maximumReached: ->
       @options.maximum && @files.length >= @options.maximum
 
+    maximumReached: ->
+      @options.maximum && @files.length >= @options.maximum && not @isUpdateOperation()
 
     # update operation is characterized by 
     # 1. config.method == 'update'
