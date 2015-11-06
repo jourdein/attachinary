@@ -59,6 +59,11 @@
       @$submit = @$form.find(@options.submit_selector ? 'input[type=submit]')
       @$wrapper = @$input.closest(@options.wrapper_container_selector) if @options.wrapper_container_selector?
 
+      # infer operation form the received
+      # data files. operation is updating if 
+      # initially the @files.length > 0 and has `id` val.
+      @inferOperation()
+
       @initFileUpload()
       @addFilesContainer()
       @bindEventHandlers()
@@ -81,6 +86,14 @@
         options.acceptFileTypes = new RegExp("^#{@$input.attr('accept').split(",").join("|")}$", "i")
 
       @$input.fileupload(options)
+
+    inferOperation: ->
+      if @files.length > 0
+        # test for the any element (i take the first one)
+        # for existence of `id` key
+        if @files[0].id?
+          @config.method = 'UPDATE'
+      return
 
     bindEventHandlers: ->
       @$input.bind 'fileuploadsend', (event, data) =>
