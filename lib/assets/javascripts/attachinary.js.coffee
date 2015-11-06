@@ -96,6 +96,8 @@
       return
 
     bindEventHandlers: ->
+        self.$input.trigger 'attachinary:fileselection'
+
       @$input.bind 'fileuploadsend', (event, data) =>
         @$input.addClass 'uploading'
         @$wrapper.addClass 'uploading' if @$wrapper?
@@ -136,6 +138,7 @@
 
       @$input.bind 'fileuploadprogressall', (e, data) =>
         progress = parseInt(data.loaded / data.total * 100, 10)
+        @$input.trigger 'attachinary:uploadprogress', [progress]
         if @config.disableWith && @config.indicateProgress
           @$submit.val "[#{progress}%] #{@config.disableWith}"
 
