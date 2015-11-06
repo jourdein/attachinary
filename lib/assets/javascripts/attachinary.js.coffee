@@ -189,6 +189,11 @@
       @options.maximum && @files.length >= @options.maximum
 
 
+    # update operation is characterized by 
+    # 1. config.method == 'update'
+    # 2. the maximum == 1
+    # 3. only can happend if @files still have files. to get the `id`
+    # multiple file will be hard to merge them.
     isUpdateOperation: ->
       if @config.method?
         # this checks on the configuration
