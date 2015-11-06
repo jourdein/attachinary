@@ -192,8 +192,10 @@
         @$wrapper.removeClass 'disabled' if @$wrapper?
         @$input.prop('disabled', false)
 
-    maximumReached: ->
-      @options.maximum && @files.length >= @options.maximum
+      if @files.length > 0
+        @$input.prop('required', false)
+      else if @$input.hasClass('required') 
+        @$input.prop('required', true)
 
     maximumReached: ->
       @options.maximum && @files.length >= @options.maximum && not @isUpdateOperation()
