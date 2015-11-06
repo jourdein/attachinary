@@ -231,9 +231,16 @@
         @$filesContainer.append @makeHiddenField(JSON.stringify(@files))
 
         @$filesContainer.append @config.render(@files)
-        @$filesContainer.find('[data-remove]').on 'click', (event) ->
+
+        @$filesContainer.find('[data-remove]').on 'click.attachinary', (event) ->
           event.preventDefault()
           that.removeFile $(this).data('remove')
+
+        # find the remove button and hide it
+        # when in update operation since delete
+        # and trying to update record will be trickier
+        if @isUpdateOperation()
+          @$filesContainer.find('[data-remove]').hide()
 
         @$filesContainer.show()
       else
