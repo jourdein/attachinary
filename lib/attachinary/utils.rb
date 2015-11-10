@@ -9,7 +9,10 @@ module Attachinary
 
     def self.process_hash(hash, scope=nil)
       if hash['id']
-        Attachinary::File.find hash['id']
+        file = Attachinary::File.find hash['id']
+        permitted_params = ActionController::Parameters.new(hash.symbolize_keys.slice(:public_id, :version, :width, :height, :format, :resource_type)).permit!
+        file.update_attributes(permitted_params)
+        file
       else
         file = if Rails::VERSION::MAJOR == 3
                  Attachinary::File.new hash.slice(*Attachinary::File.attr_accessible[:default].to_a)
