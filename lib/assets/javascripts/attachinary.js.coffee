@@ -56,8 +56,8 @@
       @files = @options.files
 
       @$form = @$input.closest('form')
-      @$submit = @$form.find(@options.submit_selector ? 'input[type=submit]')
-      @$wrapper = @$input.closest(@options.wrapper_container_selector) if @options.wrapper_container_selector?
+      @$submit = @$form.find(@config.submitSelector ? 'input[type=submit]')
+      @$wrapper = @$input.closest(@config.wrapperContainerSelector) if @config.wrapperContainerSelector?
 
       # infer operation form the received
       # data files. operation is updating if 
